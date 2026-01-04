@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -36,12 +35,7 @@ const Contact = () => {
       {/* Header */}
       <section className="py-24 lg:py-32">
         <div className="container mx-auto px-6 lg:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-2xl mx-auto"
-          >
+          <div className="text-center max-w-2xl mx-auto stagger-children">
             <p className="text-xs tracking-editorial uppercase text-muted-foreground mb-6">
               Get in Touch
             </p>
@@ -53,7 +47,7 @@ const Contact = () => {
               collections, a bespoke request, or simply wish to share your
               thoughts, we're here to help.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -62,12 +56,7 @@ const Contact = () => {
         <div className="container mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
             {/* Contact Form */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
+            <div className="opacity-0 animate-reveal-left">
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
@@ -84,7 +73,7 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full h-12 px-4 bg-transparent border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent transition-colors"
+                      className="w-full h-12 px-4 bg-transparent border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent transition-colors duration-500"
                     />
                   </div>
                   <div>
@@ -101,7 +90,7 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full h-12 px-4 bg-transparent border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent transition-colors"
+                      className="w-full h-12 px-4 bg-transparent border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent transition-colors duration-500"
                     />
                   </div>
                 </div>
@@ -119,7 +108,7 @@ const Contact = () => {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full h-12 px-4 bg-transparent border border-border text-foreground focus:outline-none focus:border-accent transition-colors appearance-none cursor-pointer"
+                    className="w-full h-12 px-4 bg-transparent border border-border text-foreground focus:outline-none focus:border-accent transition-colors duration-500 appearance-none cursor-pointer"
                   >
                     <option value="">Select a subject</option>
                     <option value="general">General Inquiry</option>
@@ -143,7 +132,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-4 bg-transparent border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent transition-colors resize-none"
+                    className="w-full px-4 py-4 bg-transparent border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent transition-colors duration-500 resize-none"
                   />
                 </div>
 
@@ -151,16 +140,10 @@ const Contact = () => {
                   Send Message
                 </Button>
               </form>
-            </motion.div>
+            </div>
 
             {/* Contact Info */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="lg:pl-12"
-            >
+            <div className="lg:pl-12 opacity-0 animate-reveal-right" style={{ animationDelay: '0.2s' }}>
               <div className="space-y-12">
                 <div>
                   <h3 className="text-xs tracking-wider uppercase text-muted-foreground mb-4">
@@ -191,13 +174,13 @@ const Contact = () => {
                   <div className="space-y-2">
                     <a
                       href="mailto:contact@maisoneclat.com"
-                      className="block text-foreground hover:text-accent transition-colors"
+                      className="block text-foreground hover:text-accent transition-colors duration-500"
                     >
                       contact@maisoneclat.com
                     </a>
                     <a
                       href="tel:+33140200000"
-                      className="block text-foreground hover:text-accent transition-colors"
+                      className="block text-foreground hover:text-accent transition-colors duration-500"
                     >
                       +33 1 40 20 00 00
                     </a>
@@ -211,7 +194,7 @@ const Contact = () => {
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
