@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useScrollDirection } from "@/hooks/use-scroll-direction";
 
 const navLinks = [
   { name: "Shop", href: "/shop" },
@@ -14,9 +15,16 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const { itemCount } = useCart();
+  const { scrollDirection, isAtTop } = useScrollDirection();
+
+  const isVisible = scrollDirection === "up" || isAtTop || isMenuOpen;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm transition-transform duration-500 ease-out ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
       <nav className="container mx-auto px-6 lg:px-12">
         <div className="flex items-center justify-between h-20 lg:h-24">
           {/* Mobile menu button */}

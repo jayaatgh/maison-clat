@@ -1,15 +1,13 @@
 import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { ProductCard } from "@/components/ProductCard";
-import { products, categories } from "@/data/products";
+import { products, categories, genderFilters, filterProducts } from "@/data/products";
 
 const Shop = () => {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [activeGender, setActiveGender] = useState("All");
 
-  const filteredProducts =
-    activeCategory === "All"
-      ? products
-      : products.filter((product) => product.category === activeCategory);
+  const filteredProducts = filterProducts(activeCategory, activeGender);
 
   return (
     <Layout>
@@ -23,6 +21,23 @@ const Shop = () => {
             <h1 className="font-serif text-4xl lg:text-6xl tracking-tight">
               Shop
             </h1>
+          </div>
+
+          {/* Gender Filter */}
+          <div className="flex justify-center gap-8 mb-8 lg:mb-12">
+            {genderFilters.map((gender) => (
+              <button
+                key={gender}
+                onClick={() => setActiveGender(gender)}
+                className={`font-serif text-lg lg:text-xl tracking-tight transition-all duration-500 pb-2 border-b-2 ${
+                  activeGender === gender
+                    ? "text-foreground border-accent"
+                    : "text-muted-foreground border-transparent hover:text-foreground"
+                }`}
+              >
+                {gender === "All" ? "All Collections" : `${gender}'s Collection`}
+              </button>
+            ))}
           </div>
 
           {/* Category Filter */}
@@ -48,7 +63,7 @@ const Shop = () => {
       <section className="pb-24 lg:pb-32">
         <div className="container mx-auto px-6 lg:px-12">
           <div
-            key={activeCategory}
+            key={`${activeCategory}-${activeGender}`}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 lg:gap-12"
           >
             {filteredProducts.map((product, index) => (
