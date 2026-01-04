@@ -7,6 +7,7 @@ import { getProductById, products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { ProductCard } from "@/components/ProductCard";
 import { useToast } from "@/hooks/use-toast";
+import { SizeGuideModal } from "@/components/SizeGuideModal";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -113,7 +114,10 @@ const ProductDetail = () => {
               {/* Size Selection */}
               {product.sizes && product.sizes.length > 0 && (
                 <div className="mb-8">
-                  <p className="text-xs tracking-wider uppercase mb-4">Size</p>
+                  <div className="flex items-center justify-between mb-4">
+                    <p className="text-xs tracking-wider uppercase">Size</p>
+                    <SizeGuideModal gender={product.gender as "women" | "men"} />
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     {product.sizes.map((size) => (
                       <button
