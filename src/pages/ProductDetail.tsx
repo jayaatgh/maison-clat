@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { ArrowLeft, Plus, Minus } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -66,7 +65,7 @@ const ProductDetail = () => {
       <div className="container mx-auto px-6 lg:px-12 py-8">
         <Link
           to="/shop"
-          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors duration-500"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Shop
@@ -78,26 +77,16 @@ const ProductDetail = () => {
         <div className="container mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
             {/* Product Image */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="aspect-[3/4] bg-secondary"
-            >
+            <div className="aspect-[3/4] bg-secondary opacity-0 animate-reveal-left">
               <img
                 src={product.image}
                 alt={product.name}
                 className="w-full h-full object-cover"
               />
-            </motion.div>
+            </div>
 
             {/* Product Info */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="lg:py-12"
-            >
+            <div className="lg:py-12 opacity-0 animate-reveal-right" style={{ animationDelay: '0.2s' }}>
               {/* Category */}
               <p className="text-xs tracking-editorial uppercase text-muted-foreground mb-4">
                 {product.category}
@@ -114,7 +103,7 @@ const ProductDetail = () => {
               </p>
 
               {/* Divider */}
-              <div className="w-12 h-px bg-border mb-8" />
+              <div className="w-12 h-px bg-border mb-8 animate-line-grow origin-left" style={{ animationDelay: '0.4s' }} />
 
               {/* Description */}
               <p className="text-muted-foreground leading-relaxed mb-8">
@@ -130,10 +119,10 @@ const ProductDetail = () => {
                       <button
                         key={size}
                         onClick={() => setSelectedSize(size)}
-                        className={`px-6 py-3 text-sm border transition-all duration-300 ${
+                        className={`px-6 py-3 text-sm border transition-all duration-500 ${
                           selectedSize === size
                             ? "bg-primary text-primary-foreground border-primary"
-                            : "bg-transparent text-foreground border-border hover:border-primary"
+                            : "bg-transparent text-foreground border-border hover:border-accent"
                         }`}
                       >
                         {size}
@@ -152,10 +141,10 @@ const ProductDetail = () => {
                       <button
                         key={color}
                         onClick={() => setSelectedColor(color)}
-                        className={`px-6 py-3 text-sm border transition-all duration-300 ${
+                        className={`px-6 py-3 text-sm border transition-all duration-500 ${
                           selectedColor === color
                             ? "bg-primary text-primary-foreground border-primary"
-                            : "bg-transparent text-foreground border-border hover:border-primary"
+                            : "bg-transparent text-foreground border-border hover:border-accent"
                         }`}
                       >
                         {color}
@@ -173,7 +162,7 @@ const ProductDetail = () => {
                 <div className="inline-flex items-center border border-border">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="p-4 hover:bg-secondary transition-colors"
+                    className="p-4 hover:bg-secondary transition-colors duration-300"
                     aria-label="Decrease quantity"
                   >
                     <Minus className="h-4 w-4" />
@@ -181,7 +170,7 @@ const ProductDetail = () => {
                   <span className="w-16 text-center">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="p-4 hover:bg-secondary transition-colors"
+                    className="p-4 hover:bg-secondary transition-colors duration-300"
                     aria-label="Increase quantity"
                   >
                     <Plus className="h-4 w-4" />
@@ -201,13 +190,13 @@ const ProductDetail = () => {
 
               {/* Additional Info */}
               <div className="mt-12 pt-8 border-t border-border">
-                <div className="grid grid-cols-1 gap-4 text-sm text-muted-foreground">
+                <div className="grid grid-cols-1 gap-4 text-sm text-muted-foreground stagger-children">
                   <p>✓ Complimentary worldwide shipping</p>
                   <p>✓ Secure checkout with SSL encryption</p>
                   <p>✓ 30-day return policy</p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -216,20 +205,14 @@ const ProductDetail = () => {
       {relatedProducts.length > 0 && (
         <section className="py-24 lg:py-32 bg-secondary">
           <div className="container mx-auto px-6 lg:px-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-            >
+            <div className="text-center mb-16 animate-drift-up">
               <p className="text-xs tracking-editorial uppercase text-muted-foreground mb-4">
                 You May Also Like
               </p>
               <h2 className="font-serif text-3xl lg:text-4xl tracking-tight">
                 Related Pieces
               </h2>
-            </motion.div>
+            </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
               {relatedProducts.map((product, index) => (

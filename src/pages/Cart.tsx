@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { ArrowLeft, X, Plus, Minus } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -21,12 +20,7 @@ const Cart = () => {
       <Layout>
         <section className="py-24 lg:py-32">
           <div className="container mx-auto px-6 lg:px-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center max-w-md mx-auto"
-            >
+            <div className="text-center max-w-md mx-auto animate-blur-in">
               <h1 className="font-serif text-4xl lg:text-5xl tracking-tight mb-6">
                 Your Cart
               </h1>
@@ -36,7 +30,7 @@ const Cart = () => {
               <Button variant="luxury" asChild>
                 <Link to="/shop">Continue Shopping</Link>
               </Button>
-            </motion.div>
+            </div>
           </div>
         </section>
       </Layout>
@@ -50,20 +44,15 @@ const Cart = () => {
         <div className="container mx-auto px-6 lg:px-12">
           <Link
             to="/shop"
-            className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+            className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors duration-500 mb-8"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Continue Shopping
           </Link>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="font-serif text-4xl lg:text-5xl tracking-tight"
-          >
+          <h1 className="font-serif text-4xl lg:text-5xl tracking-tight animate-drift-down">
             Your Cart
-          </motion.h1>
+          </h1>
         </div>
       </section>
 
@@ -75,18 +64,16 @@ const Cart = () => {
             <div className="lg:col-span-2">
               <div className="border-t border-border">
                 {items.map((item, index) => (
-                  <motion.div
+                  <div
                     key={item.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                    className="py-8 border-b border-border"
+                    className="py-8 border-b border-border opacity-0 animate-drift-up"
+                    style={{ animationDelay: `${index * 0.1}s` }}
                   >
                     <div className="flex gap-6">
                       {/* Product Image */}
                       <Link
                         to={`/product/${item.id}`}
-                        className="w-24 h-32 bg-secondary flex-shrink-0"
+                        className="w-24 h-32 bg-secondary flex-shrink-0 editorial-image"
                       >
                         <img
                           src={item.image}
@@ -101,7 +88,7 @@ const Cart = () => {
                           <div>
                             <Link
                               to={`/product/${item.id}`}
-                              className="font-serif text-lg hover:text-accent transition-colors"
+                              className="font-serif text-lg hover:text-accent transition-colors duration-500"
                             >
                               {item.name}
                             </Link>
@@ -115,7 +102,7 @@ const Cart = () => {
                           </div>
                           <button
                             onClick={() => removeItem(item.id)}
-                            className="p-2 -mr-2 text-muted-foreground hover:text-foreground transition-colors"
+                            className="p-2 -mr-2 text-muted-foreground hover:text-foreground transition-colors duration-300"
                             aria-label="Remove item"
                           >
                             <X className="h-4 w-4" />
@@ -129,7 +116,7 @@ const Cart = () => {
                               onClick={() =>
                                 updateQuantity(item.id, item.quantity - 1)
                               }
-                              className="p-2 hover:bg-secondary transition-colors"
+                              className="p-2 hover:bg-secondary transition-colors duration-300"
                               aria-label="Decrease quantity"
                             >
                               <Minus className="h-3 w-3" />
@@ -141,7 +128,7 @@ const Cart = () => {
                               onClick={() =>
                                 updateQuantity(item.id, item.quantity + 1)
                               }
-                              className="p-2 hover:bg-secondary transition-colors"
+                              className="p-2 hover:bg-secondary transition-colors duration-300"
                               aria-label="Increase quantity"
                             >
                               <Plus className="h-3 w-3" />
@@ -155,18 +142,16 @@ const Cart = () => {
                         </div>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
 
             {/* Order Summary */}
             <div className="lg:col-span-1">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="bg-secondary p-8 lg:p-10 sticky top-32"
+              <div
+                className="bg-secondary p-8 lg:p-10 sticky top-32 opacity-0 animate-reveal-right"
+                style={{ animationDelay: '0.3s' }}
               >
                 <h2 className="font-serif text-2xl tracking-tight mb-8">
                   Order Summary
@@ -197,7 +182,7 @@ const Cart = () => {
                 <p className="text-xs text-muted-foreground text-center mt-6">
                   Secure checkout powered by industry-leading encryption.
                 </p>
-              </motion.div>
+              </div>
             </div>
           </div>
         </div>
