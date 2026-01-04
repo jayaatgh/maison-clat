@@ -2,6 +2,68 @@ import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { 
+  Mail, 
+  MessageCircle, 
+  Phone,
+  HelpCircle,
+  Sparkles,
+  MapPin,
+  ArrowRight
+} from "lucide-react";
+import { Link } from "react-router-dom";
+
+const contactMethods = [
+  {
+    icon: Mail,
+    title: "Send an Email",
+    description: "We'll respond within 24 hours",
+    action: "contact@maisoneclat.com",
+    href: "mailto:contact@maisoneclat.com",
+  },
+  {
+    icon: MessageCircle,
+    title: "WhatsApp",
+    description: "Chat with our team directly",
+    action: "+33 1 40 20 00 00",
+    href: "https://wa.me/33140200000",
+  },
+  {
+    icon: Phone,
+    title: "Apple Messages",
+    description: "For iPhone and Mac users",
+    action: "Message us on iMessage",
+    href: "sms:+33140200000",
+  },
+  {
+    icon: MessageCircle,
+    title: "Facebook Messenger",
+    description: "Connect via social",
+    action: "@MaisonEclat",
+    href: "https://m.me/maisoneclat",
+  },
+];
+
+const helpLinks = [
+  {
+    icon: HelpCircle,
+    title: "FAQ",
+    description: "Find answers to common questions",
+    href: "/faq",
+  },
+  {
+    icon: Sparkles,
+    title: "Care Service",
+    description: "Product care and repairs",
+    href: "/care",
+  },
+  {
+    icon: MapPin,
+    title: "Find a Store",
+    description: "Visit our boutiques worldwide",
+    href: "/about",
+  },
+];
 
 const Contact = () => {
   const { toast } = useToast();
@@ -51,12 +113,81 @@ const Contact = () => {
         </div>
       </section>
 
+      {/* Contact Methods */}
+      <section className="pb-16 lg:pb-24">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {contactMethods.map((method, index) => (
+              <a
+                key={method.title}
+                href={method.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group p-8 border border-border hover:border-accent transition-all duration-500 opacity-0 animate-drift-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <method.icon className="h-6 w-6 text-accent mb-6 transition-transform duration-300 group-hover:scale-110" />
+                <h3 className="font-serif text-lg tracking-tight mb-2">
+                  {method.title}
+                </h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {method.description}
+                </p>
+                <span className="text-sm text-foreground group-hover:text-accent transition-colors duration-300">
+                  {method.action}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Need Help Section */}
+      <section className="py-16 lg:py-24 bg-secondary">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="font-serif text-3xl lg:text-4xl tracking-tight">
+              Need Help?
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-4xl mx-auto">
+            {helpLinks.map((link, index) => (
+              <Link
+                key={link.title}
+                to={link.href}
+                className="group flex items-start gap-4 p-6 bg-background border border-border hover:border-accent transition-all duration-500 opacity-0 animate-drift-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <link.icon className="h-5 w-5 text-accent mt-1 flex-shrink-0" />
+                <div className="flex-1">
+                  <h3 className="font-serif text-lg tracking-tight mb-1 group-hover:text-accent transition-colors duration-300">
+                    {link.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {link.description}
+                  </p>
+                </div>
+                <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all duration-300 mt-1" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Contact Form & Info */}
-      <section className="pb-24 lg:pb-32">
+      <section className="py-24 lg:py-32">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
             {/* Contact Form */}
             <div className="opacity-0 animate-reveal-left">
+              <p className="text-xs tracking-editorial uppercase text-muted-foreground mb-6">
+                Send a Message
+              </p>
+              <h2 className="font-serif text-3xl lg:text-4xl tracking-tight mb-8">
+                Write to Us
+              </h2>
+              
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
@@ -115,6 +246,7 @@ const Contact = () => {
                     <option value="order">Order Question</option>
                     <option value="bespoke">Bespoke Request</option>
                     <option value="press">Press Inquiry</option>
+                    <option value="care">Product Care</option>
                   </select>
                 </div>
 
@@ -190,7 +322,7 @@ const Contact = () => {
                 <div className="pt-8 border-t border-border">
                   <p className="text-sm text-muted-foreground">
                     Our client services team is available Monday through Friday,
-                    9:00 - 18:00 CET.
+                    9:00 - 18:00 CET. For urgent matters, please contact us via WhatsApp.
                   </p>
                 </div>
               </div>
