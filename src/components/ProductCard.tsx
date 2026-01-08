@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Product } from "@/data/products";
+import { WishlistButton } from "./WishlistButton";
 
 interface ProductCardProps {
   product: Product;
@@ -28,6 +29,11 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             alt={product.name}
             className="w-full h-full object-cover"
           />
+          
+          {/* Wishlist Button */}
+          <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <WishlistButton productId={product.id} size="sm" />
+          </div>
           
           {/* Badges */}
           <div className="absolute top-4 left-4 flex flex-col gap-2">

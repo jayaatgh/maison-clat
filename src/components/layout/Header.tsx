@@ -1,8 +1,16 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ShoppingBag } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, ShoppingBag, Heart, User, LogOut } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import { useScrollDirection } from "@/hooks/use-scroll-direction";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const navLinks = [
   { name: "Shop", href: "/shop" },
@@ -14,10 +22,17 @@ const navLinks = [
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { itemCount } = useCart();
+  const { user, signOut } = useAuth();
   const { scrollDirection, isAtTop } = useScrollDirection();
 
   const isVisible = scrollDirection === "up" || isAtTop || isMenuOpen;
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
 
   return (
     <header
@@ -86,15 +101,49 @@ export function Header() {
             ))}
           </div>
 
-          {/* Cart */}
-          <Link to="/cart" className="relative p-2 -mr-2 lg:mr-0 group">
-            <ShoppingBag className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
-            {itemCount > 0 && (
-              <span className="absolute -top-1 -right-1 h-5 w-5 bg-accent text-accent-foreground text-xs flex items-center justify-center rounded-full animate-blur-in">
-                {itemCount}
-              </span>
+          {/* Right Actions */}
+          <div className="flex items-center space-x-4">
+            {/* Wishlist */}
+            <Link to="/wishlist" className="p-2 group hidden lg:block">
+              <Heart className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+            </Link>
+
+            {/* User Menu */}
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="p-2 group hidden lg:block">
+                  <User className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <Link to="/wishlist" className="cursor-pointer">
+                      <Heart className="h-4 w-4 mr-2" />
+                      Wishlist
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/login" className="p-2 group hidden lg:block">
+                <User className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+              </Link>
             )}
-          </Link>
+
+            {/* Cart */}
+            <Link to="/cart" className="relative p-2 -mr-2 lg:mr-0 group">
+              <ShoppingBag className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 h-5 w-5 bg-accent text-accent-foreground text-xs flex items-center justify-center rounded-full animate-blur-in">
+                  {itemCount}
+                </span>
+              )}
+            </Link>
+          </div>
         </div>
       </nav>
 
@@ -123,6 +172,49 @@ export function Header() {
                 {link.name}
               </Link>
             ))}
+            
+            {/* Mobile Auth Links */}
+            <div className="pt-4 border-t border-border">
+              <Link
+                to="/wishlist"
+                onClick={() => setIsMenuOpen(false)}
+                className={`text-xl font-serif tracking-tight transition-all duration-500 flex items-center gap-3 ${
+                  isMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"
+                } text-muted-foreground hover:text-foreground`}
+                style={{ transitionDelay: isMenuOpen ? `${navLinks.length * 0.05}s` : "0s" }}
+              >
+                <Heart className="h-5 w-5" />
+                Wishlist
+              </Link>
+              
+              {user ? (
+                <button
+                  onClick={() => {
+                    handleSignOut();
+                    setIsMenuOpen(false);
+                  }}
+                  className={`text-xl font-serif tracking-tight transition-all duration-500 flex items-center gap-3 mt-4 ${
+                    isMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"
+                  } text-muted-foreground hover:text-foreground`}
+                  style={{ transitionDelay: isMenuOpen ? `${(navLinks.length + 1) * 0.05}s` : "0s" }}
+                >
+                  <LogOut className="h-5 w-5" />
+                  Sign Out
+                </button>
+              ) : (
+                <Link
+                  to="/login"
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`text-xl font-serif tracking-tight transition-all duration-500 flex items-center gap-3 mt-4 ${
+                    isMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"
+                  } text-muted-foreground hover:text-foreground`}
+                  style={{ transitionDelay: isMenuOpen ? `${(navLinks.length + 1) * 0.05}s` : "0s" }}
+                >
+                  <User className="h-5 w-5" />
+                  Sign In
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </div>
