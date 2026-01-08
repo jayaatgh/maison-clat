@@ -116,6 +116,12 @@ export function Header() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
                   <DropdownMenuItem asChild>
+                    <Link to="/profile" className="cursor-pointer">
+                      <User className="h-4 w-4 mr-2" />
+                      Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
                     <Link to="/wishlist" className="cursor-pointer">
                       <Heart className="h-4 w-4 mr-2" />
                       Wishlist
@@ -188,19 +194,32 @@ export function Header() {
               </Link>
               
               {user ? (
-                <button
-                  onClick={() => {
-                    handleSignOut();
-                    setIsMenuOpen(false);
-                  }}
-                  className={`text-xl font-serif tracking-tight transition-all duration-500 flex items-center gap-3 mt-4 ${
-                    isMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"
-                  } text-muted-foreground hover:text-foreground`}
-                  style={{ transitionDelay: isMenuOpen ? `${(navLinks.length + 1) * 0.05}s` : "0s" }}
-                >
-                  <LogOut className="h-5 w-5" />
-                  Sign Out
-                </button>
+                <>
+                  <Link
+                    to="/profile"
+                    onClick={() => setIsMenuOpen(false)}
+                    className={`text-xl font-serif tracking-tight transition-all duration-500 flex items-center gap-3 mt-4 ${
+                      isMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"
+                    } text-muted-foreground hover:text-foreground`}
+                    style={{ transitionDelay: isMenuOpen ? `${(navLinks.length + 1) * 0.05}s` : "0s" }}
+                  >
+                    <User className="h-5 w-5" />
+                    Profile
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleSignOut();
+                      setIsMenuOpen(false);
+                    }}
+                    className={`text-xl font-serif tracking-tight transition-all duration-500 flex items-center gap-3 mt-4 ${
+                      isMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"
+                    } text-muted-foreground hover:text-foreground`}
+                    style={{ transitionDelay: isMenuOpen ? `${(navLinks.length + 2) * 0.05}s` : "0s" }}
+                  >
+                    <LogOut className="h-5 w-5" />
+                    Sign Out
+                  </button>
+                </>
               ) : (
                 <Link
                   to="/login"
