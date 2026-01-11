@@ -45,17 +45,34 @@ export default function Profile() {
       .from("profiles")
       .select("name, email, phone")
       .eq("user_id", user.id)
-      .single();
+      .maybeSingle();
+
+    // If the profile row doesn't exist yet, create it (best-effort)
+    if (!error && !data) {
+      await supabase.from("profiles").upsert(
+        {
+          user_id: user.id,
+          email: user.email,
+        },
+        { onConflict: "user_id" }
+      );
+    }
 
     if (error) {
       console.error("Error fetching profile:", error);
-    } else if (data) {
       setProfile({
-        name: data.name || "",
-        email: data.email || user.email || "",
-        phone: data.phone || "",
+        name: "",
+        email: user.email || "",
+        phone: "",
+      });
+    } else {
+      setProfile({
+        name: data?.name || "",
+        email: data?.email || user.email || "",
+        phone: data?.phone || "",
       });
     }
+
     setLoading(false);
   };
 
