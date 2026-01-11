@@ -39,23 +39,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signUp = async (email: string, password: string, name?: string) => {
-    const { error } = await supabase.auth.signUp({
-      email,
+    const { data, error } = await supabase.auth.signUp({
+      email: email.trim(),
       password,
       options: {
         emailRedirectTo: window.location.origin,
         data: { name },
       },
     });
-    return { error };
+
+    // Best-effort profile creation (only works when a session is immediately available)
+    if (!error && data.session && data.user) {
+      await supabase.from("profiles").upsert(
+        {
+          user_id: data.user.id,
+          email: data.user.email,
+          name: name?.trim() || null,
+        },
+        { onConflict: "user_id" }
+      );
+    }
+
+    return { error: (error as unknown as Error) ?? null };
   };
 
   const signIn = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({
-      email,
+      email: email.trim(),
       password,
     });
-    return { error };
+    return { error: (error as unknown as Error) ?? null };
   };
 
   const signOut = async () => {
