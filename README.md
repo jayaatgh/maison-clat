@@ -34,15 +34,7 @@ shadcn/ui – Reusable UI components
 
 Node.js & npm – Dependency management
 
-📂 Project Structure
-project-root/
-│
-├── src/            # Application source code
-├── public/         # Static assets
-├── components/     # Reusable UI components
-├── pages/          # Page-level components
-├── styles/         # Global styles
-└── package.json    # Project configuration
+
 
 ⚙️ Installation & Setup
 
